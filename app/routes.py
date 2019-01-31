@@ -4,10 +4,24 @@ from app import app
 import collections
 import serial
 import threading
+import time
+import struct
 
 #ser = serial.Serial("/dev/ttyACM0", 9600)
 N = 5
 d = collections.deque([ 0 for i in range(N) ], maxlen=N)
+
+def f():
+    global d
+    ser = serial.Serial("/dev/ttyACM0", 9600, timeout=1)
+    while True:
+        try:
+            data = struct.unpack('>h', b'\x00' + ser.read())[0]
+            d.append(data)
+        except Exception as e:
+            print(str(e))
+
+threading.Thread(target=f).start()
 
 @app.route("/")
 @app.route("/index")

@@ -40,13 +40,7 @@
     <div class="container text-center py-3">
         <div class="row">
             <div class="m-auto">
-                <button class="btn btn-success" style="width:150px;">Start</button>
-            </div>
-            <div class="m-auto">
                 <button class="btn btn-primary" onclick="updateData()" style="width: 150px;">Update</button>
-            </div>
-            <div class="m-auto">
-                <button class="btn btn-danger" style="width:150px;">Stop</button>
             </div>
         </div>
     </div>
@@ -101,7 +95,7 @@ var margin = {top: 30, right: 20, bottom: 30, left: 50},
     height = 270 - margin.top - margin.bottom;
 
 // Set the ranges
-var x = d3.time.scale().range([0, width]);
+var x = d3.scale.linear().range([0, width]);
 var y = d3.scale.linear().range([height, 0]);
 
 // Define the axes
@@ -126,15 +120,16 @@ var svg = d3.select("#graph")
               "translate(" + margin.left + "," + margin.top + ")");
 
 // Get the data
-var data = [ [0, 99.55],
-             [1, 76.86],
-             [2, 67.62],
-             [3, 64.48],
-             [4, 60.98] ];
+var data = [ [0, parseInt(document.getElementById("data0").innerHTML)],
+             [1, parseInt(document.getElementById("data1").innerHTML)],
+             [2, parseInt(document.getElementById("data2").innerHTML)],
+             [3, parseInt(document.getElementById("data3").innerHTML)],
+             [4, parseInt(document.getElementById("data4").innerHTML)] ];
+    console.log(data);
 
     // Scale the range of the data
     x.domain(d3.extent(data, function(d) { return d[0]; }));
-    y.domain([0, d3.max(data, function(d) { return d[1]; })]);
+    y.domain([0, d3.max(data, function(d) { return 255; })]);
 
     // Add the valueline path.
     svg.append("path")
@@ -156,15 +151,15 @@ var data = [ [0, 99.55],
 function updateGraph() {
 
     // Get the data again
-    var data = [ [0, 99.55],
-        [1,  55.86],
-        [2,  22.62],
-        [3,  11.48],
-        [4,  160.9] ];
+    var data = [ [0, parseInt(document.getElementById("data0").innerHTML)],
+             [1, parseInt(document.getElementById("data1").innerHTML)],
+             [2, parseInt(document.getElementById("data2").innerHTML)],
+             [3, parseInt(document.getElementById("data3").innerHTML)],
+             [4, parseInt(document.getElementById("data4").innerHTML)] ];
 
     	// Scale the range of the data again 
     	x.domain(d3.extent(data, function(d) { return d[0]; }));
-	    y.domain([0, d3.max(data, function(d) { return d[1]; })]);
+	    y.domain([0, d3.max(data, function(d) { return 255; })]);
 
     // Select the section we want to apply our changes to
     var svg = d3.select("body").transition();
